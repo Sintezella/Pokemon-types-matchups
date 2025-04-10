@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Type Matchup Quiz</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Pokémon Type Matchup Quiz</h1>
+        <div id="question"></div>
+        <div id="options">
+            <label><input type="radio" name="option" value="Super effective"> Super effective</label><br>
+            <label><input type="radio" name="option" value="Not very effective"> Not very effective</label><br>
+            <label><input type="radio" name="option" value="Does not affect"> Does not affect</label><br>
+            <label><input type="radio" name="option" value="Normal"> Normal</label><br>
+        </div>
+        <button id="submit">Submit</button>
+        <button id="next" disabled>Next</button>
+        <div id="feedback"></div>
+        <div id="score">Score: 0/0</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
