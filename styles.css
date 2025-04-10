@@ -13,23 +13,42 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
+    width: 800px;
     text-align: center;
 }
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+.zones {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
 }
 
-#question {
-    font-size: 18px;
-    margin-bottom: 20px;
+.drop-zone {
+    width: 350px;
+    min-height: 200px;
+    border: 2px dashed #ccc;
+    padding: 10px;
 }
 
-#options label {
-    display: block;
-    margin: 10px 0;
+.type-item {
+    padding: 5px 10px;
+    margin: 5px;
+    background-color: #e0e0e0;
+    cursor: move;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.correct {
+    border: 2px solid green;
+}
+
+.incorrect {
+    border: 2px solid red;
+}
+
+#starting-area {
+    margin: 20px 0;
 }
 
 button {
@@ -37,11 +56,6 @@ button {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
-}
-
-#feedback {
-    margin-top: 20px;
-    font-size: 16px;
 }
 
 #score {
