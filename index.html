@@ -3,23 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokémon Type Matchup Quiz</title>
+    <title>Pokémon Type Matchup Challenge</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="quiz-container">
-        <h1>Pokémon Type Matchup Quiz</h1>
-        <div id="question"></div>
-        <div id="options">
-            <label><input type="radio" name="option" value="Super effective"> Super effective</label><br>
-            <label><input type="radio" name="option" value="Not very effective"> Not very effective</label><br>
-            <label><input type="radio" name="option" value="Does not affect"> Does not affect</label><br>
-            <label><input type="radio" name="option" value="Normal"> Normal</label><br>
+        <h1>Pokémon Type Matchup Challenge</h1>
+        <div id="instructions">Drag each attacking type to the correct side: effective (right) or ineffective (left) against the defending type(s).</div>
+        <div id="defending-type">Defending type(s): <span id="defending"></span></div>
+        <div class="zones">
+            <div class="drop-zone" id="not-super-effective">
+                <h2>Ineffective (Not Super Effective)</h2>
+                <div class="items"></div>
+            </div>
+            <div class="drop-zone" id="super-effective">
+                <h2>Effective (Super Effective)</h2>
+                <div class="items"></div>
+            </div>
         </div>
-        <button id="submit">Submit</button>
-        <button id="next" disabled>Next</button>
-        <div id="feedback"></div>
-        <div id="score">Score: 0/0</div>
+        <div id="starting-area">
+            <!-- Attacking types will be added dynamically -->
+        </div>
+        <button id="check">Check</button>
+        <button id="next">Next Question</button>
+        <div id="score"></div>
     </div>
     <script src="script.js"></script>
 </body>
