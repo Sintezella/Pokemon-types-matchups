@@ -27,68 +27,115 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateQuestion() {
         const attackType = types[Math.floor(Math.random() * types.length)];
+document.addEventListener('DOMContentLoaded', () => {
+    let typeChart;
+    let types;
+    let defendingTypes;
+    let correctCategories = {};
+
+    // Load type chart from JSON
+    fetch('type_chart.json')
+        .then(response => response.json())
+        .then(data => {
+            typeChart = data;
+            types = Object.keys(typeChart);
+            generateQuestion();
+        })
+        .catch(error => {
+            alert('Error loading type chart: ' + error);
+        });
+
+    // Generate a new question
+    function generateQuestion() {
+        // Randomly choose single or dual-type
         const numTypes = Math.random() < 0.5 ? 1 : 2;
-        let defendTypes;
         if (numTypes === 1) {
-            defendTypes = [types[Math.floor(Math.random() * types.length)]];
+            defendingTypes = [types[Math.floor(Math.random() * types.length)]];
         } else {
-            defendTypes = [...new Set([types[Math.floor(Math.random() * types.length)], types[Math.floor(Math.random() * types.length)]])];
-            if (defendTypes.length === 1) defendTypes.push(types[Math.floor(Math.random() * types.length)]);
+            defendingTypes = [...new Set([types[Math.floor(Math.random() * types.length)], types[Math.floor(Math.random() * types.length)]])];
+            if (defendingTypes.length === 1) defendingTypes.push(types[Math.floor(Math.random() * types.length)]);
         }
-        const effectiveness = defendTypes.reduce((acc, type) => acc * typeChart[attackType][type], 1);
-        const question = `What is the effectiveness of ${attackType} against ${defendTypes.join('/')}${defendTypes.length > 1 ? ' (dual type)' : ''}?`;
-        let description;
-        if (effectiveness === 0) {
-            description = 'Does not affect';
-        } else if (effectiveness > 1) {
-            description = 'Super effective';
-        } else if (effectiveness < 1) {
-            description = 'Not very effective';
-        } else {
-            description = 'Normal';
-        }
-        return { question, description, effectiveness };
+        document.getElementById('defending').textContent = defendingTypes.join('/');
+
+        // Calculate effectiveness for each attacking type
+        correctCategories = {};
+        types.forEach(attackType => {
+            const effectiveness = defendingTypes.reduce((acc, defendType) => acc * typeChart[attackType][defendType], 1);
+            correctCategories[attackType] = effectiveness > 1 ? 'super-effective' : 'not-super-effective';
+        });
+
+        // Populate starting area with draggable types
+        const startingArea = document.getElementById('starting-area');
+        startingArea.innerHTML = '';
+        types.forEach(type => {
+            const item = document.createElement('div');
+            item.className = 'type-item';
+            item.textContent = type;
+            item.draggable = true;
+            item.setAttribute('data-type', type);
+            item.addEventListener('dragstart', dragStart);
+            startingArea.appendChild(item);
+        });
+
+        // Clear drop zones
+        document.querySelector('#super-effective .items').innerHTML = '';
+        document.querySelector('#not-super-effective .items').innerHTML = '';
+        document.getElementById('score').textContent = '';
     }
 
-    function nextQuestion() {
-        const { question, description, effectiveness } = generateQuestion();
-        questionEl.textContent = question;
-        correctDescription = description;
-        correctEffectiveness = effectiveness;
-        feedbackEl.textContent = '';
-        optionsEl.querySelectorAll('input').forEach(input => input.checked = false);
-        submitBtn.disabled = false;
-        nextBtn.disabled = true;
+    // Drag start event
+    function dragStart(e) {
+        e.dataTransfer.setData('text', e.target.getAttribute('data-type'));
     }
 
-    submitBtn.addEventListener('click', () => {
-        const selectedOption = optionsEl.querySelector('input:checked');
-        if (!selectedOption) {
-            alert('Please select an option!');
-            return;
-        }
-        totalQuestions++;
-        const userAnswer = selectedOption.value;
-        let feedback;
-        if (userAnswer === correctDescription) {
-            correctAnswers++;
-            feedback = `Correct! It's ${correctDescription}`;
-        } else {
-            feedback = `Incorrect. It's ${correctDescription}`;
-        }
-        const multiplierStr = correctEffectiveness === 0 ? '0x' :
-                              correctEffectiveness === 0.25 ? '0.25x' :
-                              correctEffectiveness === 0.5 ? '0.5x' :
-                              correctEffectiveness === 1 ? '1x' :
-                              correctEffectiveness === 2 ? '2x' :
-                              correctEffectiveness === 4 ? '4x' :
-                              `${correctEffectiveness}x`;
-        feedback += ` (${multiplierStr} damage).`;
-        feedbackEl.textContent = feedback;
-        scoreEl.textContent = `Score: ${correctAnswers}/${totalQuestions}`;
-        submitBtn.disabled = true;
-        nextBtn.disabled = false;
+    // Set up drop zones
+    const dropZones = document.querySelectorAll('.drop-zone');
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', dragOver);
+        zone.addEventListener('drop', drop);
     });
 
-    nextBtn.addEventListener('click', nextQuestion);
+    function dragOver(e) {
+        e.preventDefault();
+    }
+
+    function drop(e) {
+        e.preventDefault();
+        const type = e.dataTransfer.getData('text');
+        const item = document.querySelector(`.type-item[data-type="${type}"]`);
+        if (item) {
+            let target = e.target;
+            while (target && !target.classList.contains('drop-zone')) {
+                target = target.parentElement;
+            }
+            if (target) {
+                const itemsContainer = target.querySelector('.items');
+                if (itemsContainer) {
+                    itemsContainer.appendChild(item);
+                }
+            }
+        }
+    }
+
+    // Check answers
+    document.getElementById('check').addEventListener('click', () => {
+        let score = 0;
+        types.forEach(type => {
+            const item = document.querySelector(`.type-item[data-type="${type}"]`);
+            const parent = item.closest('.drop-zone');
+            const isCorrect = parent && parent.id === correctCategories[type];
+            if (isCorrect) {
+                item.classList.add('correct');
+                item.classList.remove('incorrect');
+                score++;
+            } else {
+                item.classList.add('incorrect');
+                item.classList.remove('correct');
+            }
+        });
+        document.getElementById('score').textContent = `You got ${score} out of 18 correct.`;
+    });
+
+    // Next question
+    document.getElementById('next').addEventListener('click', generateQuestion);
 });
