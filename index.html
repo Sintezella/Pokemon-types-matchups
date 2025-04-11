@@ -9,15 +9,31 @@
 <body>
     <div class="quiz-container">
         <h1>Pokémon Type Matchup Challenge</h1>
-        <div id="instructions">Drag each attacking type to the correct side: effective (right) or ineffective (left) against the defending type(s).</div>
+        <div id="instructions">Drag each attacking type to the correct effectiveness zone against the defending type(s).</div>
         <div id="defending-type">Defending type(s): <span id="defending"></span></div>
         <div class="zones">
-            <div class="drop-zone" id="not-super-effective">
-                <h2>Ineffective (Not Super Effective)</h2>
+            <div class="drop-zone" id="zone-0">
+                <h2>x0 (No effect)</h2>
                 <div class="items"></div>
             </div>
-            <div class="drop-zone" id="super-effective">
-                <h2>Effective (Super Effective)</h2>
+            <div class="drop-zone" id="zone-0.25">
+                <h2>x0.25</h2>
+                <div class="items"></div>
+            </div>
+            <div class="drop-zone" id="zone-0.5">
+                <h2>x0.5</h2>
+                <div class="items"></div>
+            </div>
+            <div class="drop-zone" id="zone-1">
+                <h2>x1 (Normal)</h2>
+                <div class="items"></div>
+            </div>
+            <div class="drop-zone" id="zone-2">
+                <h2>x2 (Super effective)</h2>
+                <div class="items"></div>
+            </div>
+            <div class="drop-zone" id="zone-4">
+                <h2>x4 (Very super effective)</h2>
                 <div class="items"></div>
             </div>
         </div>
