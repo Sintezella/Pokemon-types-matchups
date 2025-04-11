@@ -18,14 +18,13 @@ body {
 }
 
 .zones {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     margin: 20px 0;
 }
-
 .drop-zone {
-    width: 350px;
-    min-height: 200px;
+    min-height: 150px;
     border: 2px dashed #ccc;
     padding: 10px;
 }
