@@ -4,7 +4,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
 }
 
@@ -37,6 +37,7 @@ body {
     cursor: move;
     display: inline-block;
     border-radius: 5px;
+    user-select: none;
 }
 
 .correct {
@@ -61,4 +62,9 @@ button {
 #score {
     margin-top: 20px;
     font-size: 16px;
+}
+
+#defending-type {
+    font-size: 18px;
+    margin: 10px 0;
 }
