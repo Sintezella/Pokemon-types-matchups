@@ -60,13 +60,9 @@ body {
 }
 
 .type-item {
-    padding: 5px 10px;
-    background-color: #3c3c3c; /* Darker gray for type items */
-    color: #ffffff;
-    border-radius: 5px;
-    cursor: move;
-    user-select: none;
-    transition: transform 0.2s; /* Smooth hover effect */
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
 }
 
 .type-item:hover {
