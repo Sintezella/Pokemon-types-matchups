@@ -115,6 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Drag start event
+    startingArea.addEventListener('dragover', dragOver);
+    startingArea.addEventListener('drop', drop);
+    
     function dragStart(e) {
         console.log('Dragging:', e.target.getAttribute('data-type'));
         e.dataTransfer.setData('text', e.target.getAttribute('data-type'));
@@ -134,23 +137,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function drop(e) {
         e.preventDefault();
         const type = e.dataTransfer.getData('text');
-        console.log('Dropping:', type);
         const item = document.querySelector(`.type-item[data-type="${type}"]`);
-        if (item) {
-            let target = e.target;
-            while (target && !target.classList.contains('drop-zone')) {
-                target = target.parentElement;
-            }
-            if (target) {
-                const itemsContainer = target.querySelector('.items');
-                if (itemsContainer) {
-                    itemsContainer.appendChild(item);
-                    console.log(`Dropped ${type} into ${target.id}`);
-                }
-            }
+        if (!item) return;
+        
+        let target = e.target.closest('.drop-zone, #starting-area');
+        if (target) {
+            const itemsContainer = target.classList.contains('drop-zone') ? 
+                target.querySelector('.items') : target;
+            
+            // Remove from previous position
+            item.parentElement.removeChild(item);
+            // Add to new position
+            itemsContainer.appendChild(item);
+            console.log(`Moved ${type} to ${target.id || 'starting area'}`);
         }
     }
-
+    
     // Check answers
     checkBtn.addEventListener('click', () => {
         console.log('Checking answers...');
