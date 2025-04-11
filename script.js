@@ -80,7 +80,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 return acc * value;
             }, 1);
-            correctCategories[attackType] = effectiveness > 1 ? 'super-effective' : 'not-super-effective';
+            // Map to the correct zone ID
+            let zone;
+            if (effectiveness === 0) zone = 'zone-0';
+            else if (effectiveness === 0.25) zone = 'zone-0.25';
+            else if (effectiveness === 0.5) zone = 'zone-0.5';
+            else if (effectiveness === 1) zone = 'zone-1';
+            else if (effectiveness === 2) zone = 'zone-2';
+            else if (effectiveness === 4) zone = 'zone-4';
+            else {
+                console.error(`Unexpected effectiveness value: ${effectiveness} for ${attackType}`);
+                zone = 'zone-1'; // Fallback
+            }
+            correctCategories[attackType] = zone;
         });
         console.log('Correct categories:', correctCategories);
 
@@ -98,8 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Starting area populated with', types.length, 'types');
 
         // Clear drop zones
-        document.querySelector('#super-effective .items').innerHTML = '';
-        document.querySelector('#not-super-effective .items').innerHTML = '';
+        document.querySelectorAll('.drop-zone .items').forEach(items => items.innerHTML = '');
         scoreEl.textContent = '';
     }
 
