@@ -1,17 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-}
-
-.quiz-container {
-    background-color: white;
-body {
-    font-family: Arial, sans-serif;
     background-color: #121212; /* Dark black background */
     color: #ffffff; /* White text for contrast */
     display: flex;
@@ -145,18 +133,4 @@ button:hover {
     .zones {
         grid-template-columns: 1fr; /* 1 column on phones */
     }
-}  margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-#score {
-    margin-top: 20px;
-    font-size: 16px;
-}
-
-#defending-type {
-    font-size: 18px;
-    margin: 10px 0;
 }
